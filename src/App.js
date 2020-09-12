@@ -1,11 +1,18 @@
 import React from 'react';
+import { Route } from 'react-router-dom';
+import Navbar from './components/navbar';
+import Home from './pages/home';
+import Orders from './pages/orders';
+import Order from './pages/order';
 import './App.css';
-import Orders from './orders';
 
 function App() {
   return (
     <div className="App">
-      <Orders />
+      <Navbar />
+      <Route exact path='/' component={Home} />
+      <Route exact path='/orders' component={Orders} />
+      <Route path='/orders/:id' component={Order} />
     </div>
   );
 }
