@@ -26,17 +26,19 @@ function CreateOrder() {
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={(values) => {
-            dispatch(createOrder({...values, id: values.title}));
+          dispatch(createOrder({ ...values, id: values.title }));
         }}
       >
-        <Form>
-          <TextInput name='title' label='order title' />
-          <TextInput name='title' label='order title' />
-          <Field name='title' placeholder='order title' />
-          <TBSelect name='selectedOption' options={options} label='country' />
-          <ErrorMessage name='title' />
-          <button type='submit'>Submit</button>
-        </Form>
+        {({ isSubmitting, dirty, isValid }) => (
+          <Form>
+            <TextInput name='title' label='order title' />
+            <TextInput name='title' label='order title' />
+            <Field name='title' placeholder='order title' />
+            <TBSelect name='selectedOption' options={options} label='country' />
+            <ErrorMessage name='title' />
+            <button type='submit' disabled={!isValid || !dirty || isSubmitting}>Submit</button>
+          </Form>
+        )}
       </Formik>
     </div>
   );
