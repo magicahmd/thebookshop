@@ -1,39 +1,12 @@
 import {
   CREATE_ORDER,
   DELETE_ORDER,
+  FETCH_ORDERS,
   UPDATE_ORDER,
 } from '../constants/orderConstants';
 
 const initialState = {
-  orders: [
-    {
-      id: '1',
-      uid: 56535,
-      books: [
-        {
-          name: 'Nichijou',
-          price: 40,
-        },
-        {
-          name: 'Req Queen',
-          price: 60,
-        },
-      ],
-    },
-    {
-      id: '2',
-      uid: 77777,
-      books: [
-        {
-          name: 'Attack on Titan Vol 7',
-          price: 40,
-        },
-      ],
-    },
-    {
-      id: '3',
-    }
-  ],
+  orders: []
 };
 
 export default function orderReducer(state = initialState, { type, payload }) {
@@ -55,6 +28,11 @@ export default function orderReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         orders: [...state.orders.filter((order) => order.id !== payload.id)],
+      };
+    case FETCH_ORDERS:
+      return {
+        ...state,
+        orders: payload,
       };
 
     default:
