@@ -48,6 +48,13 @@ export function loadOrders() {
   }
 }
 
+export function listenToOrders(orders) {
+  return {
+    type: FETCH_ORDERS,
+    payload: orders
+  }
+}
+
 export function createOrder(order) {
   return {
     type: CREATE_ORDER,

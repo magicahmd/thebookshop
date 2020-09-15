@@ -1,21 +1,17 @@
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import {
-  dataFromSnapshot,
-  getOrdersFromFirestore,
-} from '../../firestore/firestoreService';
+import { listenToOrdersFromFirestore } from '../../firestore/firestoreService';
+import useFirestoreCollection from '../../hooks/useFirestoreCollection';
+import { listenToOrders } from '../../store/actions/orderActions';
 
 function OrdersDashboard() {
-  useEffect(() => {
-    const unsubscribe = getOrdersFromFirestore({
-      next: (snapshot) =>
-        console.log(
-          snapshot.docs.map((docSnapshot) => dataFromSnapshot(docSnapshot))
-        ),
-      error: (error) => console.log(error),
-    });
-    return unsubscribe;
+  const dispatch = useDispatch();
+
+  useFirestoreCollection({
+    query: () => listenToOrdersFromFirestore(),
+    data: (orders) => dispatch(listenToOrders(orders)),
+    deps: [dispatch],
   });
 
   const { orders } = useSelector((state) => state.order);

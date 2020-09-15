@@ -22,6 +22,6 @@ export function dataFromSnapshot(snapshot){
 
 }
 
-export function getOrdersFromFirestore(observer) {
-    return db.collection('orders').onSnapshot(observer); 
+export function listenToOrdersFromFirestore() {
+    return db.collection('orders');
 }
