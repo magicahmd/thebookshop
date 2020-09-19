@@ -13,6 +13,9 @@ function Navbar() {
       <NavLink exact to='/orders'>
         Orders
       </NavLink>
+      <NavLink exact to='/create-order'>
+        Create Order
+      </NavLink>
       {authenticated && <SignedInMenu />}
     </div>
   );
