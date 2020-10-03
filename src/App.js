@@ -6,6 +6,7 @@ import OrdersDashboard from './pages/ordersDashboard';
 import CreateOrder from './pages/createOrder';
 import Order from './pages/order';
 import Login from './pages/login';
+import ManageOrder from './pages/manageOrder';
 import './App.css';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
       <Route exact path='/orders' component={OrdersDashboard} />
       <Route path='/orders/:id' component={Order} />
       <Route path='/create-order' component={CreateOrder} />
+      <Route path='/manage-order/:id' component={ManageOrder} />
     </div>
   );
 }

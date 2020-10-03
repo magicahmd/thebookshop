@@ -11,7 +11,7 @@ export default function TBSelect({ ...props }) {
       {...props}
       {...field}
       getOptionLabel={(option) => option.label}
-      getOptionSelected={(option, selected) => JSON.stringify(option) === JSON.stringify(selected)}
+      getOptionSelected={(option, selected) => option.value === selected.value}
       onChange={(_, value) => setFieldValue(props.name, value)}
       renderInput={(params) => (
         <TextField

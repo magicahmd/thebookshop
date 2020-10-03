@@ -27,6 +27,7 @@ function OrdersDashboard() {
       {orders.map((order, index) => (
         <div key={index}>
           <Link to={`/orders/${order.id}`}>order {order.id}</Link>
+          <Link to={`/manage-order/${order.id}`}>edit</Link>
         </div>
       ))}
     </div>
