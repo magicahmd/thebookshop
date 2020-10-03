@@ -1,6 +1,7 @@
 import React from 'react';
 import { Formik, Form, ErrorMessage, FieldArray } from 'formik';
 import * as Yup from 'yup';
+import NumberFormat from 'react-number-format';
 import TextInput from '../../components/common/TextInput';
 import { useDispatch, useSelector } from 'react-redux';
 import { createOrder, listenToOrders } from '../../store/actions/orderActions';
@@ -11,6 +12,23 @@ import {
   listenToOrdersFromFirestore,
 } from '../../firestore/firestoreService';
 
+function priceFormat(props) {
+  const { inputRef, ...other } = props;
+
+  return (
+    <NumberFormat
+      {...other}
+      getInputRef={inputRef}
+      thousandSeparator
+      prefix='₪'
+      isAllowed={(values) => {
+        const { floatValue } = values;
+        return floatValue >= 0 && floatValue <= 2000;
+      }}
+    />
+  );
+}
+
 function CreateOrder({ match, history }) {
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.async);
@@ -20,12 +38,12 @@ function CreateOrder({ match, history }) {
       {
         title: '',
         price: '',
+        quantity: { label: '1', value: 1 },
       },
     ],
-    selectedOption: { title: 'The Shawshank Redemption', year: 1994 },
+    selectedOption: { label: 'The Shawshank Redemption', year: 1994 },
   };
   const validationSchema = Yup.object({
-    name: Yup.string().required('error message'),
     books: Yup.array()
       .of(
         Yup.object().shape({
@@ -36,10 +54,18 @@ function CreateOrder({ match, history }) {
       .required('Must have books') // these constraints are shown if and only if inner constraints are satisfied
       .min(1, 'Minimum of one book'),
   });
-  const options = [
-    { title: 'The Shawshank Redemption', year: 1994 },
-    { title: 'The Godfather', year: 1972 },
-    { title: 'The Godfather: Part II', year: 1974 },
+
+  const quantityOptions = [
+    { label: '1', value: 1 },
+    { label: '2', value: 2 },
+    { label: '3', value: 3 },
+    { label: '4', value: 4 },
+    { label: '5', value: 5 },
+    { label: '6', value: 6 },
+    { label: '7', value: 7 },
+    { label: '8', value: 8 },
+    { label: '9', value: 9 },
+    { label: '10', value: 10 },
   ];
 
   useFirestoreDoc({
@@ -71,9 +97,6 @@ function CreateOrder({ match, history }) {
       >
         {({ isSubmitting, dirty, isValid }) => (
           <Form>
-            <TextInput name='name' label='order title' />
-            <br />
-            <br />
             <FieldArray name='books'>
               {(fieldArrayProps) => {
                 const { form, push, remove } = fieldArrayProps;
@@ -101,8 +124,17 @@ function CreateOrder({ match, history }) {
                         <TextInput
                           name={`books[${index}].price`}
                           label='Book price'
+                          InputProps={{
+                            inputComponent: priceFormat,
+                          }}
                         />
                         <br />
+                        <TBSelect
+                          name={`books[${index}].quantity`}
+                          options={quantityOptions}
+                          label='Book Quantity'
+                          output='value'
+                        />
                         {index > 0 && (
                           <button type='button' onClick={() => remove(index)}>
                             remove this book.
@@ -114,7 +146,6 @@ function CreateOrder({ match, history }) {
                 );
               }}
             </FieldArray>
-            <TBSelect name='selectedOption' options={options} label='country' />
             <ErrorMessage name='title' />
             <button type='submit' disabled={!isValid || !dirty || isSubmitting}>
               Submit

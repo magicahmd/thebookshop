@@ -10,7 +10,7 @@ export default function TBSelect({ ...props }) {
     <Autocomplete
       {...props}
       {...field}
-      getOptionLabel={(option) => option.title}
+      getOptionLabel={(option) => option.label}
       getOptionSelected={(option, selected) => JSON.stringify(option) === JSON.stringify(selected)}
       onChange={(_, value) => setFieldValue(props.name, value)}
       renderInput={(params) => (

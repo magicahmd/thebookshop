@@ -10,7 +10,7 @@ export default function TextInput({ ...props }) {
       {...props}
       error={meta.touched && !!meta.error}
       variant='outlined'
-      helperText={meta.error}
+      helperText={meta.touched && !!meta.error && meta.error}
     />
   );
 }

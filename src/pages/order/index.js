@@ -26,8 +26,8 @@ function Order({ match }) {
   return (
     <div>
       <p>order by: {order.uid}</p>
-      {order.books.map((book) => (
-        <div>{book.name}</div>
+      {order.books.map((book, index) => (
+        <div key={index}>{book.name}</div>
       ))}
     </div>
   );

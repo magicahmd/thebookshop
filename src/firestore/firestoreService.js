@@ -22,7 +22,7 @@ export function dataFromSnapshot(snapshot) {
 }
 
 export function listenToOrdersFromFirestore() {
-  return db.collection('orders');
+  return db.collection('orders').orderBy('createdAt', 'desc');
 }
 
 export function listenToOrderFromFirestore(orderId) {
@@ -33,10 +33,6 @@ export function addOrderToFirestore(order) {
   return db.collection('orders').add({
     ...order,
     createdAt: new Date(),
-    books: firebase.firestore.FieldValue.arrayUnion({
-      id: 1,
-      name: 'attacks',
-    }),
     createdBy: 'Ahmad',
   });
 }

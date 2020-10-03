@@ -14,13 +14,18 @@ function OrdersDashboard() {
     deps: [dispatch],
   });
 
+  const { loading } = useSelector((state) => state.async);
   const { orders } = useSelector((state) => state.order);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
       <h1>Orders page</h1>
-      {orders.map((order) => (
-        <div key={order.id}>
+      {orders.map((order, index) => (
+        <div key={index}>
           <Link to={`/orders/${order.id}`}>order {order.id}</Link>
         </div>
       ))}
